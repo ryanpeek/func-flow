@@ -1,0 +1,8 @@
+name: ffc
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+  - python=3.7
+  - pip

@@ -19,3 +19,4 @@ user_output_files/*.csv
 *.dot
 *.png
 *.joblib
+.Rproj.user
