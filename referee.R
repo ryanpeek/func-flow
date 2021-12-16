@@ -8,28 +8,45 @@
 
 # reticulate: https://rstudio.github.io/reticulate/articles/python_packages.html#conda-installation-1
 
-
 library(reticulate)
 library(dplyr)
 library(tidyr)
-use_python("/usr/local/bin/python3")
+#use_python("/usr/local/bin/python3")
 
-# EFF_DIR <- file.path("Z:", "adit", "Desktop", "LARFlows", "code", "func-flow")
-EFF_DIR <- "/home/daniel/research/func-flow"
+miniconda_path() # defaults to /Users/rapeek/Library/r-miniconda
+reticulate::conda_list() # get paths
+
+# set paths
+#Sys.setenv(RETICULATE_MINICONDA_PATH = "/Users/rapeek/opt/miniconda3/envs/ffc/bin/python")
+Sys.setenv(RETICULATE_PYTHON = "/Users/rapeek/opt/miniconda3/envs/ffc/bin/python")
+
+# get conda env
+use_condaenv("ffc",required = TRUE)
+
+# check install
+reticulate::py_config()
+reticulate::py_available() # if false set py
+
+# install a package (as a double check)
+reticulate::py_install(pip = TRUE, "numpy", envname = "ffc")
+
+# set paths
+EFF_DIR <- "/Users/rapeek/Documents/github/func-flow-calc"
 INPUT_DIR <- "user_input_files"
 OUTPUT_DIR <- "user_output_files"
 MATRIX_EXT <- "_annual_flow_matrix.csv"
 RESULT_EXT <- "_annual_flow_result.csv"
 DRH_EXT <- "_drh.csv"
-# Must be Python 3
-PYTHON_PATH <- file.path("/usr/bin/python3")
-# Replace "virtualenv" with whatever the virtual env is called
-VENV_PATH <- file.path(EFF_DIR, "virtual")
 
+# Must be Python 3
+#PYTHON_PATH <- file.path("/Users/rapeek/opt/miniconda3/envs/ffc/bin/python")
+
+# Replace "virtualenv" with whatever the virtual env is called
+#VENV_PATH <- file.path(EFF_DIR, "ffc")
 
 # If using virtual env, comment use_python and uncomment use_virtualenv.
 # use_python(PYTHON_PATH, required = T)
-use_virtualenv(VENV_PATH, required = T)
+#use_virtualenv(VENV_PATH, required = T)
 
 example_gagedata <- function(startdate = "2009/10/01", stopdate = "2019/10/01", mean = 100, sd = 50, gages = 1:10) {
   result <- data.frame()
@@ -194,4 +211,8 @@ gage_mean <- function(gage) {
   # Return mean annual data
   colMeans(gage, na.rm = T)
 }
+
+
+
+# Run? --------------------------------------------------------------------
 
